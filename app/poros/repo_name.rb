@@ -1,7 +1,7 @@
-class RepoName
-  attr_reader :name
+# class RepoName
+#   attr_reader :name
   
-  def initialize(data)
-    @name = data
-  end
-end
+#   def initialize(data)
+#     @name = data
+#   end
+# end

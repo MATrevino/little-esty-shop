@@ -198,19 +198,19 @@ RSpec.describe 'merchant items index page', type: :feature do
 				
 				within "#top_5_most_popular_items" do
 					within "##{item3.id}_popular_item" do
-						expect(page).to have_content("$30 in sales")
+						expect(page).to have_content("$30.00 in sales")
 					end
 					within "##{item4.id}_popular_item" do
-						expect(page).to have_content("$24 in sales")
+						expect(page).to have_content("$24.00 in sales")
 					end
 					within "##{item5.id}_popular_item" do
-						expect(page).to have_content("$19 in sales")
+						expect(page).to have_content("$19.00 in sales")
 					end
 					within "##{item2.id}_popular_item" do
-						expect(page).to have_content("$7 in sales")
+						expect(page).to have_content("$7.00 in sales")
 					end
 					within "##{item1.id}_popular_item" do
-						expect(page).to have_content("$6 in sales")
+						expect(page).to have_content("$6.00 in sales")
 					end
 				end
 			end

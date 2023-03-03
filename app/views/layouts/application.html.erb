@@ -15,13 +15,6 @@
 				<%= msg %>
 			</div>
     <% end %>
-    
-    <h1><%= @repo_name.name %></h1>
-    <h3>Collaborators</h3>
-    <% @users.each do |user| %>
-      <p><%= user.username %> - <%= user.commit_count %> Commits</p>
-    <% end %>
-    <p><%= @pull_requests %> merged pull requests</p>
 
     <%= yield %>
   </body> 
