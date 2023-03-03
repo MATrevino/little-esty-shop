@@ -161,5 +161,11 @@ RSpec.describe 'merchant show dashboard page', type: :feature do
       expect(page).to have_content(invoice5.created_at.strftime"%A, %B %d, %Y")
       expect(page).to have_content(invoice6.created_at.strftime"%A, %B %d, %Y")
     end
+
+    it "shows a link to view all my discounts" do
+      visit "/merchants/#{merchant1.id}/dashboard"
+
+      expect(page).to have_link("View all my discounts")
+    end
   end
 end
