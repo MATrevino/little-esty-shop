@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'merchant show dashboard page', type: :feature do
   describe "as a merchant visiting '/merchants/merchant_id/dashboard'" do
     let!(:merchant1) { create(:merchant)}
+    let!(:merchant2) { create(:merchant)}
 
     let!(:customer1) { create(:customer)}
     let!(:customer2) { create(:customer)}
@@ -43,6 +44,9 @@ RSpec.describe 'merchant show dashboard page', type: :feature do
     let!(:transaction12) {create(:transaction, invoice: invoice10) }
     let!(:transaction13) {create(:transaction, invoice: invoice11) }
     
+    let!(:bulkdiscount1) {BulkDiscount.create!(merchant: merchant1, name: "20% of 5", percentage_discount: 0.20, quantity_threshold: 5)}
+    let!(:bulkdiscount2) {BulkDiscount.create!(merchant: merchant1, name: "30% of 10", percentage_discount: 0.30, quantity_threshold: 10)}
+    let!(:bulkdiscount3) {BulkDiscount.create!(merchant: merchant2, name: "10% of 15", percentage_discount: 0.10, quantity_threshold: 15)}
     before do
       create(:invoice_item, item: item1, invoice: invoice1)
       create(:invoice_item, item: item2, invoice: invoice1)
@@ -67,7 +71,6 @@ RSpec.describe 'merchant show dashboard page', type: :feature do
       create(:invoice_item, item: item4, invoice: invoice10)
       create(:invoice_item, item: item1, invoice: invoice11)
       create(:invoice_item, item: item4, invoice: invoice11)
-
     end
     
 
@@ -166,6 +169,34 @@ RSpec.describe 'merchant show dashboard page', type: :feature do
       visit "/merchants/#{merchant1.id}/dashboard"
 
       expect(page).to have_link("View all my discounts")
+    end
+
+    describe 'when I click link, I am taking to bulk discount index page' do
+      it "shows all of my bulk discounts including percent discount, quantity thresholds and each discount includes a link to its show page" do
+       visit "/merchants/#{merchant1.id}/dashboard"
+
+        click_link "View all my discounts"
+        expect(current_path).to eq("/merchants/#{merchant1.id}/bulk_discounts")
+
+        expect(page).to have_content("#{merchant1.name}'s Bulk Discount Index Page")
+   
+        expect(page).to have_content("Name of discount: #{bulkdiscount1.name}")
+        expect(page).to have_link("#{bulkdiscount1.name}")
+        expect(page).to have_content("Percentage off: #{bulkdiscount1.percentage_discount*100}% off")
+        expect(page).to have_content("Quantity Threshold: #{bulkdiscount1.quantity_threshold} items")
+    
+
+        expect(page).to have_content("Name of discount: #{bulkdiscount2.name}")
+        expect(page).to have_link("#{bulkdiscount2.name}")
+        expect(page).to have_content("Percentage off: #{bulkdiscount2.percentage_discount*100}% off")
+        expect(page).to have_content("Quantity Threshold: #{bulkdiscount2.quantity_threshold} items")
+        
+        save_and_open_page
+
+        expect(page).to_not have_content("Name of discount: #{bulkdiscount3.name}")
+        expect(page).to_not have_content("Percentage off: #{bulkdiscount3.percentage_discount*100}% off")
+        expect(page).to_not have_content("Quantity Threshold: #{bulkdiscount3.quantity_threshold} items")
+      end
     end
   end
 end
