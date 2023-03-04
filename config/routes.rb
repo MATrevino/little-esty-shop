@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/merchants/:id/dashboard', to: "merchants#show"
 	patch '/merchants/:merchant_id/items/:id', to: "merchant/items#update"
   get '/merchants/:id/bulk_discounts', to: "merchant/bulk_discounts#index"
+  get '/merchants/:id/bulk_discounts/new', to: "merchant/bulk_discounts#new"
+  post '/merchants/:id/bulk_discounts', to: "merchant/bulk_discounts#create"
 
   resources :admin, only: :index
 

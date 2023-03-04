@@ -11,6 +11,10 @@ merchant_2 = Merchant.create(name: 'merchant2')
 merchant_3 = Merchant.create(name: 'merchant3')
 merchant_4 = Merchant.create(name: 'merchant4', status: 'disabled')
 
+bulkdiscount1 = BulkDiscount.create(merchant: merchant1, name: "20% of 5", percentage_discount: 0.20, quantity_threshold: 5)
+bulkdiscount2 = BulkDiscount.create!(merchant: merchant1, name: "30% of 10", percentage_discount: 0.30, quantity_threshold: 10)
+bulkdiscount3 = BulkDiscount.create!(merchant: merchant_2, name: "10% of 15", percentage_discount: 0.10, quantity_threshold: 15)
+
 customer1 = Customer.create(first_name: 'John1', last_name: 'Doe1')
 customer2 = Customer.create(first_name: 'John2', last_name: 'Doe2')
 customer3 = Customer.create(first_name: 'John3', last_name: 'Doe3')
