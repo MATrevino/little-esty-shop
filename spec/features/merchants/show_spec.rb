@@ -191,8 +191,6 @@ RSpec.describe 'merchant show dashboard page', type: :feature do
         expect(page).to have_content("Percentage off: #{bulkdiscount2.percentage_discount*100}% off")
         expect(page).to have_content("Quantity Threshold: #{bulkdiscount2.quantity_threshold} items")
         
-        save_and_open_page
-
         expect(page).to_not have_content("Name of discount: #{bulkdiscount3.name}")
         expect(page).to_not have_content("Percentage off: #{bulkdiscount3.percentage_discount*100}% off")
         expect(page).to_not have_content("Quantity Threshold: #{bulkdiscount3.quantity_threshold} items")
