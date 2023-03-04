@@ -1,0 +1,9 @@
+<h3>Edit Bulk Discount</h3>
+<%= render partial: "_bulk_discount_form", locals:{
+url: "/merchants/#{@merchant.id}/bulk_discounts/#{@bulk_discount.id}",
+method: :patch,
+name: :name, value: @bulk_discount.name, 
+percentage_discount: :percentage_discount, value: @bulk_discount.percentage_discount,
+quantity_threshold: :quantity_threshold, value: @bulk_discount.quantity_threshold,
+button_text: "Update Discount"
+}%>
