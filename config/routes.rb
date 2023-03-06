@@ -11,13 +11,20 @@ Rails.application.routes.draw do
 
   get '/merchants/:id/dashboard', to: "merchants#show"
 	patch '/merchants/:merchant_id/items/:id', to: "merchant/items#update"
-  get '/merchants/:merchant_id/bulk_discounts', to: "merchant/bulk_discounts#index"
-  get '/merchants/:merchant_id/bulk_discounts/new', to: "merchant/bulk_discounts#new"
-  post '/merchants/:merchant_id/bulk_discounts', to: "merchant/bulk_discounts#create"
-  delete '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#destroy"
-  get '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#show"
-  get '/merchants/:merchant_id/bulk_discounts/:id/edit', to: "merchant/bulk_discounts#edit"
-  patch '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#update"
+
+
+  
+  resources :merchants, only: :show do
+    resources :bulk_discounts, only: [:index, :new, :create, :destroy, :show, :edit, :update], controller: 'merchant/bulk_discounts'
+  end
+  
+  # get '/merchants/:merchant_id/bulk_discounts', to: "merchant/bulk_discounts#index"
+  # get '/merchants/:merchant_id/bulk_discounts/new', to: "merchant/bulk_discounts#new"
+  # post '/merchants/:merchant_id/bulk_discounts', to: "merchant/bulk_discounts#create"
+  # delete '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#destroy"
+  # get '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#show"
+  # get '/merchants/:merchant_id/bulk_discounts/:id/edit', to: "merchant/bulk_discounts#edit"
+  # patch '/merchants/:merchant_id/bulk_discounts/:id', to: "merchant/bulk_discounts#update"
 
 
   resources :admin, only: :index

@@ -48,7 +48,6 @@ RSpec.describe 'merchant bulk discount index page', type: :feature do
     describe 'Holiday API' do
       it "I see a header (Upcoming Holidays), in this section, the name and date of the next 3 upcoming US holidays" do
         visit "/merchants/#{merchant1.id}/bulk_discounts"
-       save_and_open_page
         expect(page).to have_content("Upcoming Holidays")
 
         expect(page).to have_content("Good Friday")
