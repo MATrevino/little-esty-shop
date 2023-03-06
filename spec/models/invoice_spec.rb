@@ -90,5 +90,12 @@ RSpec.describe Invoice, type: :model do
         expect(invoice2.total_revenue).to eq(revenue_2)        
       end
     end
+
+    it '#total_invoice_discount' do
+      expect(@invoice_1.total_invoice_discount)
+    end
+    it "#total_discounted_revenue" do
+
+    end
   end
 end

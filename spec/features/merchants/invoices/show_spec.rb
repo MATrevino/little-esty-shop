@@ -15,12 +15,15 @@ describe 'As a merchant', type: :feature do
   let!(:invoice1) {create(:invoice, created_at: Date.new(2020, 1, 2), customer: customer1)}
   let!(:invoice2) {create(:invoice, created_at: Date.new(2019, 3, 9), customer: customer2)}
 
+  let!(:bulkdiscount1) {BulkDiscount.create!(merchant: merchant1, name: "20% of 5", percentage_discount: 0.20, quantity_threshold: 5)}
+  let!(:bulkdiscount2) {BulkDiscount.create!(merchant: merchant1, name: "30% of 10", percentage_discount: 0.30, quantity_threshold: 10)}
+
   before(:each) do
-    @invoice_item1 = create(:invoice_item, invoice: invoice1, item: item1)
-    @invoice_item2 = create(:invoice_item, invoice: invoice1, item: item2)
-    @invoice_item3 = create(:invoice_item, invoice: invoice1, item: item3)
-    @invoice_item4 = create(:invoice_item, invoice: invoice1, item: item4)
-    @invoice_item5 = create(:invoice_item, invoice: invoice2, item: item5)
+    @invoice_item1 = create(:invoice_item, invoice: invoice1, item: item1, quantity: 10, unit_price: 1000, status: 1)
+    @invoice_item2 = create(:invoice_item, invoice: invoice1, item: item2, quantity: 4, unit_price: 800, status: 1)
+    @invoice_item3 = create(:invoice_item, invoice: invoice1, item: item3, quantity: 5, unit_price: 500, status: 1)
+    @invoice_item4 = create(:invoice_item, invoice: invoice1, item: item4, quantity: 2, unit_price: 200, status: 1)
+    # @invoice_item5 = create(:invoice_item, invoice: invoice2, item: item5, quantity: 1, unit_price: 100, status: 1)
   end
 
   describe "When I visit my merchant's invoice show page" do
@@ -111,7 +114,17 @@ describe 'As a merchant', type: :feature do
       within '#total_revenue' do
         expect(page).to have_content("$#{total_revenue.to_f/100}")
       end
+    end
 
+    it 'I see the total revenue for my merchant from this invoice(not including discounts)' do
+      visit "/merchants/#{merchant1.id}/invoices/#{invoice1.id}"
+
+      expect(page).to have_content("Total Revenue: $161")
+    end
+
+    it 'I also see the total discounted revenue for my merchant from this invoice, including bulk discounts in the calculation' do
+      visit "/merchants/#{merchant1.id}/invoices/#{invoice1.id}"
+      expect(page).to have_content("Total Discounted Revenue: $126")
     end
   end
 end

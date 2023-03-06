@@ -6,6 +6,10 @@
   <p>Total Revenue: <%=number_to_currency(@invoice.total_revenue.to_f/100, percision: 2) %></p>
 </div>
 
+<div id="total_discounted_revenue">
+  <p>Total Discounted Revenue: <%=number_to_currency(@invoice.total_discounted_revenue.to_f/100, percision: 2) %></p>
+  </div>
+
 <div id="customers">
 <h3>Customer:</h3>
 <p><%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
