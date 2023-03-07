@@ -117,7 +117,7 @@ describe 'As a merchant', type: :feature do
         visit "/admin/invoices/#{invoice1.id}"
 
         expect(page).to have_content("Total Revenue: $#{invoice1.total_revenue.to_f/100}")
-        expect(page).to have_content("Total Discounted Revenue: $#{invoice1.total_revenue_with_discount.to_f/100}")
+        expect(page).to have_content("Total Discounted Revenue: $#{(invoice1.total_revenue_with_discount.to_f/100).round(2)}")
       end
     end
   end

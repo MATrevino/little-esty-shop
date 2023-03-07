@@ -33,4 +33,4 @@
   <% end %>
 </table>
 
-<h4>Total Discounted Revenue: $<%=(@total_discounted_revenue.to_f/100) %> </h4>
+<h4>Total Discounted Revenue: <%=number_to_currency(@total_discounted_revenue.to_f/100, precision:2) %> </h4>
