@@ -21,6 +21,8 @@ describe 'As a merchant', type: :feature do
   let!(:invoice_item4) { create(:invoice_item, invoice: invoice1, item: item4) }
   let!(:invoice_item5) { create(:invoice_item, invoice: invoice1, item: item5) }
 
+  let!(:bulkdiscount1) {BulkDiscount.create!(merchant: merchant1, name: "20% of 5", percentage_discount: 0.20, quantity_threshold: 5)}
+  let!(:bulkdiscount2) {BulkDiscount.create!(merchant: merchant1, name: "30% of 10", percentage_discount: 0.30, quantity_threshold: 10)}
   
   describe "When I visit an admin invoice show page" do
     it 'I see the invoice ID, status, and created_at date with formatting' do
@@ -108,6 +110,15 @@ describe 'As a merchant', type: :feature do
       click_button 'Update Invoice Status'
 
       expect(page).to have_select('Status', :selected=> "cancelled")
+    end
+
+    describe  'I see the total revenue from this invoice (not including discounts)' do
+      it 'I see the total discounted revenue from this invoice which includes bulk discounts in the calculation' do
+        visit "/admin/invoices/#{invoice1.id}"
+
+        expect(page).to have_content("Total Revenue: $#{invoice1.total_revenue.to_f/100}")
+        expect(page).to have_content("Total Discounted Revenue: $#{invoice1.total_revenue_with_discount.to_f/100}")
+      end
     end
   end
 end
