@@ -25,7 +25,15 @@
   </tr>
   <tr>
     <%@invoice.invoice_items.each do |invoice_item|%>
-    <td><%=invoice_item.item.name%></td>
+    <div id="invoice_item-<%=invoice_item.id%>">
+      <td><%=invoice_item.item.name%> 
+
+      <% if invoice_item.best_discount != nil %> 
+        <%=link_to "Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{invoice_item.best_discount.id}" %>
+      <%end%>
+    </div>
+    
+    </td>
     <td><%=invoice_item.quantity%></td>
     <td><%=(number_to_currency(invoice_item.unit_price.to_f/100))%></td>
     
