@@ -36,9 +36,16 @@ RSpec.describe 'merchant bulk discount show page', type: :feature do
         expect(page).to have_button("Update Discount")
 
         fill_in :name, with: "Big Deal"
+        fill_in :percentage_discount, with: ""
+        fill_in :quantity_threshold, with: 100
+        click_on "Update Discount"
+        expect(page).to have_content("Invalid Input")
+        expect(current_path).to eq("/merchants/#{merchant1.id}/bulk_discounts/#{bulkdiscount1.id}/edit")
+        
+        fill_in :name, with: "Big Deal"
         fill_in :percentage_discount, with: 0.5
         fill_in :quantity_threshold, with: 100
-
+        
         click_on "Update Discount"
 
         expect(page).to have_content("Big Deal")
